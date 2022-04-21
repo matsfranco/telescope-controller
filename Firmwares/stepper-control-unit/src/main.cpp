@@ -1,4 +1,4 @@
-#include "StepperDriver.h"
+#include <StepperDriver.h>
 
 StepperDriver motor1 = StepperDriver("Motor 1",200,7,8,2,9,3,4,5,6);
 

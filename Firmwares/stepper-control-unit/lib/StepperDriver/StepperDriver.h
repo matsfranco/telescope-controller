@@ -1,12 +1,12 @@
-/*  StepperDriver.h - Library to implement the hardware interface with A4988 Stepper Motor Driver
- *  Created by Mateus Franco
+/**  StepperDriver.h - Library to implement the hardware interface with A4988 Stepper Motor Driver
+ * Created by Mateus Franco
  *  March 2022
- */
+**/
 
 #ifndef STEPPERDRIVER_H
 #define STEPPERDRIVER_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 class StepperDriver {
   public:
@@ -42,6 +42,5 @@ class StepperDriver {
     String _directionStatus;
     String _enableStatus;
 };
-
 
 #endif

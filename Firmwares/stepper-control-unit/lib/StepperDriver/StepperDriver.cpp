@@ -1,9 +1,9 @@
-#include "Arduino.h"
-#include "StepperDriver.h"
+#include <Arduino.h>
+#include <StepperDriver.h>
 
 StepperDriver::StepperDriver(String motorName, int totalSteps, int enable, int reset, int stp, int sleep, int dir, int ms1, int ms2, int ms3) {  
   _motorName = motorName;
-  _halfPeriod = 2000;
+  _halfPeriod = 3000;
   _totalSteps = totalSteps;
   _en = enable;
   _rst = reset;
