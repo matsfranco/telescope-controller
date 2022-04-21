@@ -135,7 +135,8 @@ boolean StepperDriver::initializeDriver() {
   resetDriver();
   setStepMode(16);
   setClockWiseDir();
-  enableDriver();  
+  enableDriver();
+  return true;  
 }
 
 String StepperDriver::getCurrentStatus() {
