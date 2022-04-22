@@ -27,6 +27,10 @@ StepperDriver::StepperDriver(String motorName, int totalSteps, int enable, int r
   pinMode(_stp, OUTPUT);
 }
 
+StepperDriver::StepperDriver() {
+  
+}
+
 int StepperDriver::setStepMode(int divider) {
   switch(divider) {
     // Full Step

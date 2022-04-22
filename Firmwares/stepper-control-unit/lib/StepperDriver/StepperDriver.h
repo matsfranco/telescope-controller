@@ -11,6 +11,7 @@
 class StepperDriver {
   public:
     StepperDriver(String motorName, int totalSteps, int enable, int reset, int stp, int sleep, int dir, int ms1, int ms2, int ms3);
+    StepperDriver();
     int setStepMode(int divider);
     boolean setClockWiseDir();
     boolean setCounterClockWiseDir();
