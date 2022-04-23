@@ -18,6 +18,7 @@ class StepperDriver {
     boolean enableDriver();
     boolean disableDriver();
     boolean resetDriver();
+    void setHalfPeriod(int value);
     void executeStep();
     boolean initializeDriver();
     boolean runDegrees(int deg);
