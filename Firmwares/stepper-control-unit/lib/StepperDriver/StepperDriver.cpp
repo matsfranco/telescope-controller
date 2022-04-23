@@ -114,6 +114,10 @@ boolean StepperDriver::resetDriver() {
   return true;
 }
 
+void StepperDriver::setHalfPeriod(int value) {
+  _halfPeriod = value; 
+}
+
 void StepperDriver::executeStep() {
   digitalWrite(_stp, LOW);
   delayMicroseconds (_halfPeriod);
