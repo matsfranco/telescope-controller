@@ -24,6 +24,7 @@ class StepperDriver {
     boolean runDegrees(int deg);
     boolean inactivateSleep();
     String getCurrentStatus();
+    String getName();
 
   private: 
     String _motorName;

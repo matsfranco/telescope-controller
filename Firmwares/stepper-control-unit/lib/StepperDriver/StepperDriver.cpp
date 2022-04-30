@@ -159,3 +159,7 @@ String StepperDriver::getCurrentStatus() {
     currentStatus += "Angular Speed: "+(String)_angularSpeed+" rpm\n";
     return currentStatus;
 }
+
+String StepperDriver::getName() {
+  return _motorName;
+}
