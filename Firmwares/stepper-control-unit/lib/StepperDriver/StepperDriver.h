@@ -18,11 +18,16 @@ class StepperDriver {
     boolean enableDriver();
     boolean disableDriver();
     boolean resetDriver();
-    void executeStep();
+    void setHalfPeriod(int value);
     boolean initializeDriver();
-    boolean runDegrees(int deg);
+    boolean runSteps(int steps);
     boolean inactivateSleep();
     String getCurrentStatus();
+    String getName();
+    boolean setTopSpeed(int speed); 
+    boolean setBotSpeed(int speed);
+    boolean setAcceleration(int acc);
+    void constantAcceleration();
 
   private: 
     String _motorName;
@@ -42,6 +47,10 @@ class StepperDriver {
     float _resolution;
     String _directionStatus;
     String _enableStatus;
+    int _botSpeed;
+    int _topSpeed;
+    int _acc;
+    void executeStep(int halfPeriod);
 };
 
 #endif

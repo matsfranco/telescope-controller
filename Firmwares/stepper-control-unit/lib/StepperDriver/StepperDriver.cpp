@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <StepperDriver.h>
 
+#define STEPS 400
+
 StepperDriver::StepperDriver(String motorName, int totalSteps, int enable, int reset, int stp, int sleep, int dir, int ms1, int ms2, int ms3) {  
   _motorName = motorName;
   _halfPeriod = 3000;
@@ -114,16 +116,34 @@ boolean StepperDriver::resetDriver() {
   return true;
 }
 
-void StepperDriver::executeStep() {
-  digitalWrite(_stp, LOW);
-  delayMicroseconds (_halfPeriod);
-  digitalWrite(_stp, HIGH);
-  delayMicroseconds (_halfPeriod);
+void StepperDriver::setHalfPeriod(int value) {
+  _halfPeriod = value; 
 }
 
-boolean StepperDriver::runDegrees(int deg) {
-  for(int s = 0; s < deg; s++) {
-    executeStep();  
+void StepperDriver::executeStep(int halfPeriod) {
+  digitalWrite(_stp, HIGH);
+  digitalWrite(_stp, LOW);
+  delayMicroseconds (halfPeriod);
+}
+
+boolean StepperDriver::runSteps(int steps) {
+  
+  int rampUpStop = (_botSpeed - _topSpeed) / _acc;
+  if(rampUpStop > steps / 2) {
+    rampUpStop = steps / 2;
+  }
+  int rampDownStart = steps- rampUpStop;
+  int d = _botSpeed;
+
+  for(int s = 0; s < steps; s++) {
+    executeStep(d); 
+    if(s < rampUpStop) {
+      d -= _acc;
+    } else {
+      if(s > rampDownStart) {
+        d += _acc;
+      }
+    }
   }
   return true;
 }
@@ -154,4 +174,52 @@ String StepperDriver::getCurrentStatus() {
     currentStatus += "Resolution: "+String(_resolution,3)+" degrees per step\n";
     currentStatus += "Angular Speed: "+(String)_angularSpeed+" rpm\n";
     return currentStatus;
+}
+
+String StepperDriver::getName() {
+  return _motorName;
+}
+
+boolean StepperDriver::setTopSpeed(int speed) {
+  _topSpeed = speed;
+  return true;  
+}
+
+boolean StepperDriver::setBotSpeed(int speed) {
+  _botSpeed = speed;
+  return true;  
+}
+
+boolean StepperDriver::setAcceleration(int acc) {
+  _acc = acc;
+  return true;  
+}
+
+void StepperDriver::constantAcceleration() {
+  int delays[STEPS];
+  float angle = 1;
+  float accel = 0.1;
+  float c0 = _botSpeed*sqrt(2*angle/accel) * 0.67703;
+  float lastDelay = 0;
+  for(int i = 0; i < STEPS; i++) {
+    float d = c0;
+    if(i > 0) {
+      d = lastDelay - (2*lastDelay)/(4*i+1);
+    }
+    if(d < _topSpeed) {
+      d = _topSpeed;
+    }
+    delays[i] = d;
+    lastDelay = d;
+  }
+  for(int i = 0; i < STEPS; i++) {
+    digitalWrite(_stp,HIGH);
+    delayMicroseconds(delays[i]);
+    digitalWrite(_stp,LOW);  
+  }
+  for(int i = 0; i < STEPS; i++) {
+    digitalWrite(_stp,HIGH);
+    delayMicroseconds(delays[STEPS-i-1]);
+    digitalWrite(_stp,LOW);  
+  }
 }
