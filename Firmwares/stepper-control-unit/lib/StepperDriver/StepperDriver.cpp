@@ -3,6 +3,7 @@
 
 #define STEPS 400
 
+
 StepperDriver::StepperDriver(String motorName, int totalSteps, int enable, int reset, int stp, int sleep, int dir, int ms1, int ms2, int ms3) {  
   _motorName = motorName;
   _halfPeriod = 3000;
@@ -197,12 +198,10 @@ boolean StepperDriver::setAcceleration(int acc) {
 
 void StepperDriver::constantAcceleration() {
   int delays[STEPS];
-  float angle = 1;
-  float accel = 0.1;
-  float c0 = _botSpeed*sqrt(2*angle/accel) * 0.67703;
+  //float c0 = _botSpeed*sqrt(2*angle/accel) * 0.67703;
   float lastDelay = 0;
   for(int i = 0; i < STEPS; i++) {
-    float d = c0;
+    float d = _c0;
     if(i > 0) {
       d = lastDelay - (2*lastDelay)/(4*i+1);
     }
@@ -223,3 +222,10 @@ void StepperDriver::constantAcceleration() {
     digitalWrite(_stp,LOW);  
   }
 }
+
+void StepperDriver::setC0(unsigned int value) {
+  _c0 = value;
+}
+
+
+

@@ -28,6 +28,9 @@ class StepperDriver {
     boolean setBotSpeed(int speed);
     boolean setAcceleration(int acc);
     void constantAcceleration();
+    void setC0(unsigned int value);
+    //void moveNSteps(long steps);
+    //void moveToPosition(long p, bool wait);
 
   private: 
     String _motorName;
@@ -50,6 +53,7 @@ class StepperDriver {
     int _botSpeed;
     int _topSpeed;
     int _acc;
+    unsigned int _c0;
     void executeStep(int halfPeriod);
 };
 
